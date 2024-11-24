@@ -1,0 +1,85 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+
+function App() {
+  const [code, setCode] = useState('');
+  const [language, setLanguage] = useState('javascript');
+  const [output, setOutput] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const languageOptions = {
+    javascript: 63,
+    python: 71,
+    java: 62,
+    c: 50
+  };
+
+  const executeCode = async () => {
+    setOutput('Running...');
+    setLoading(true);
+
+    try {
+      // Submit the code for execution
+      const { data } = await axios.post(
+        'https://judge0-ce.p.rapidapi.com/submissions',
+        {
+          source_code: code,
+          language_id: languageOptions[language],
+        },
+        {
+          headers: {
+            'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com',
+            'X-RapidAPI-Key': 'f523c58207msh5f6e08e642672f5p19e78djsna53342bad6f2'
+          }
+        }
+      );
+
+      const { token } = data;
+
+      // Check for result using the token until execution is complete
+      let result;
+      do {
+        result = await axios.get(`https://judge0-ce.p.rapidapi.com/submissions/${token}`, {
+          headers: {
+            'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com',
+            'X-RapidAPI-Key': 'f523c58207msh5f6e08e642672f5p19e78djsna53342bad6f2'
+          }
+        });
+      } while (result.data.status.id <= 2);
+
+      setOutput(result.data.stdout || result.data.stderr || "No output");
+    } catch (error) {
+      setOutput(`Error: ${error.response ? error.response.data : error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="App">
+      <h1>Multi-Language Code Executor</h1>
+      <textarea
+        rows="10"
+        cols="50"
+        value={code}
+        onChange={(e) => setCode(e.target.value)}
+        placeholder="Enter your code here..."
+      />
+      <select value={language} onChange={(e) => setLanguage(e.target.value)}>
+        <option value="javascript">JavaScript</option>
+        <option value="python">Python</option>
+        <option value="java">Java</option>
+        <option value="c">C</option>
+      </select>
+      <button onClick={executeCode} disabled={loading}>
+        {loading ? 'Running...' : 'Run Code'}
+      </button>
+      <div className="output">
+        <h2>Output:</h2>
+        <pre>{output}</pre>
+      </div>
+    </div>
+  );
+}
+
+export default App;

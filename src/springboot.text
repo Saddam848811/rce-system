@@ -1,0 +1,78 @@
+package com.example.codeexecutor.controller;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.util.UriComponentsBuilder;
+
+@RestController
+@RequestMapping("/api")
+public class CodeExecutionController {
+
+    @Value("${rapidapi.key}")
+    private String rapidApiKey;
+
+    @Value("${rapidapi.host}")
+    private String rapidApiHost;
+
+    private final RestTemplate restTemplate = new RestTemplate();
+
+    @PostMapping("/execute")
+    public ResponseEntity<?> executeCode(@RequestBody CodeExecutionRequest request) {
+        try {
+            // Prepare the request for Judge0 API
+            String judge0ApiUrl = "https://judge0-ce.p.rapidapi.com/submissions";
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("X-RapidAPI-Key", rapidApiKey);
+            headers.set("X-RapidAPI-Host", rapidApiHost);
+
+            // Prepare request body
+            String requestBody = "{"
+                    + "\"source_code\": \"" + request.getSourceCode() + "\","
+                    + "\"language_id\": " + request.getLanguageId() + "}"
+                    ;
+
+            HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+
+            // Send POST request to Judge0
+            String token = restTemplate.exchange(judge0ApiUrl, HttpMethod.POST, entity, String.class)
+                    .getBody();
+
+            // Use the token to check status
+            String statusCheckUrl = "https://judge0-ce.p.rapidapi.com/submissions/" + token;
+            ResponseEntity<String> response = restTemplate.exchange(statusCheckUrl, HttpMethod.GET, entity, String.class);
+
+            // Return output (stdout or stderr)
+            return ResponseEntity.status(HttpStatus.OK).body(response.getBody());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error executing code: " + e.getMessage());
+        }
+    }
+}
+
+class CodeExecutionRequest {
+    private String sourceCode;
+    private int languageId;
+
+    public String getSourceCode() {
+        return sourceCode;
+    }
+
+    public void setSourceCode(String sourceCode) {
+        this.sourceCode = sourceCode;
+    }
+
+    public int getLanguageId() {
+        return languageId;
+    }
+
+    public void setLanguageId(int languageId) {
+        this.languageId = languageId;
+    }
+}
