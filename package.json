@@ -2,14 +2,18 @@
   "name": "rcesystem",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://sh848811.github.io/RceSystem",
-
+  "homepage": "https://saddam848811.github.io/rce-system",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "react-scripts start",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
