@@ -1,143 +1,204 @@
 /* General reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #003403;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  overflow-x: hidden;  /* Prevent horizontal overflow */
+  padding: 1rem;
+}
+
+/* Container for the entire app */
+.container {
+  width: 100%;  /* Full width of the viewport */
+  max-width: 1200px;  /* Max width for large screens */
+  margin: 0 auto;
+  padding: 2rem;  /* More padding for larger screens */
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;  /* Prevent content overflow */
+  display: block;
+}
+
+/* Header section */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+  width: 100%;
+}
+
+.header-title {
+  font-size: 1.5rem;  /* Larger title on desktop */
+  color: #333;
+  text-align: center;
+  width: 100%;
+}
+
+.language-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.5rem;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.language-buttons button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  font-size: 1rem;  /* Slightly larger buttons for desktop */
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.language-buttons button:hover {
+  background-color: #0056b3;
+}
+
+/* Main content */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;  /* Increased gap between sections */
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.editor-section {
+  width: 100%;
+  height: 30vh;  /* Slightly larger editor section on desktop */
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 0.5rem;
+  font-size: 1.1rem;  /* Larger font size for readability */
+  overflow: hidden;
+}
+
+.input-output-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.input-area, .output-area {
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+textarea {
+  width: 100%;
+  height: 15vh;  /* Slightly larger height for textareas */
+  padding: 0.5rem;
+  font-size: 1rem;  /* Adjust font size for readability */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.input-area label, .output-area label {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Footer section */
+.footer {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.footer button {
+  background-color: #28a745;
+  color: white;
+  padding: 1rem 2rem;  /* Larger button size on desktop */
+  font-size: 1.1rem;  /* Larger font size */
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.footer button:hover {
+  background-color: #218838;
+}
+
+/* Responsive Design for Small Screens (max-width: 480px) */
+@media (max-width: 480px) {
   body {
-    font-family: Arial, sans-serif;
-    background-color: #003403;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    padding: 0.5rem;
   }
-  
-  /* Container for the entire app */
-  .container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 20px;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #e0e0e0;
-    padding-bottom: 15px;
-  }
-  
+
   .header-title {
-    font-size: 1.8rem;
-    color: #333;
-  }
-  
-  .language-buttons button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 15px;
     font-size: 1rem;
-    cursor: pointer;
-    margin-right: 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
   }
-  
-  .language-buttons button:hover {
-    background-color: #0056b3;
+
+  .language-buttons button {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
   }
-  
-  /* Main content with editor and input/output sections */
-  .main-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
+
   .editor-section {
-    flex: 1 1 65%;
-    min-width: 600px;
-    max-width: 800px;
-    height: 500px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
+    height: 18vh;
+    font-size: 0.9rem;
   }
-  
-  .input-output-section {
-    flex: 1 1 30%;
-    min-width: 300px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .input-area, .output-area {
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-  }
-  
+
   textarea {
-    width: 100%;
-    height: 150px;
-    padding: 10px;
-    font-size: 1.2rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    resize: vertical;
+    height: 10vh;
   }
-  
-  .input-area label, .output-area label {
-    font-size: 1.2rem;
-    margin-bottom: 5px;
-  }
-  
-  .footer {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-  }
-  
+
   .footer button {
-    background-color: #28a745;
-    color: white;
-    padding: 15px 30px;
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+/* Responsive Design for Large Screens (min-width: 1200px) */
+@media (min-width: 1200px) {
+  body {
+    padding: 2rem;  /* Add more padding on larger screens */
+  }
+
+  .header-title {
+    font-size: 2rem;  /* Even larger font size for large screens */
+  }
+
+  .language-buttons button {
+    font-size: 1.1rem;  /* Larger button sizes for desktop */
+  }
+
+  .editor-section {
+    height: 35vh;  /* More space for the editor */
+  }
+
+  textarea {
+    height: 20vh;  /* More space for the textareas */
+  }
+
+  .footer button {
     font-size: 1.2rem;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    padding: 0.8rem 1.5rem;
   }
-  
-  .footer button:hover {
-    background-color: #218838;
-  }
-  
-  /* Responsive design */
-  @media (max-width: 768px) {
-    .main-content {
-      flex-direction: column;
-    }
-  
-    .editor-section {
-      width: 100%;
-      min-width: auto;
-      margin-bottom: 20px;
-    }
-  
-    .input-output-section {
-      width: 100%;
-    }
-  }
-  
+}

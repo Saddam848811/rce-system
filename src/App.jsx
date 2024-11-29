@@ -90,7 +90,7 @@ function App() {
             value={code}
             onChange={(value) => setCode(value)}
             options={{
-              fontSize: 18,
+              fontSize: 9,
             }}
           />
         </div>
